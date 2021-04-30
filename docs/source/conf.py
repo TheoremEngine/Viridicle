@@ -199,9 +199,9 @@ else:
 
 # -- Project information -----------------------------------------------------
 
-project = 'viridicle'
-copyright = '2020'
-author = 'Mark'
+project = 'Viridicle'
+copyright = '2021'
+author = 'Mark Lowell'
 
 # The full version, including alpha/beta/rc tags
 release = '0.1'

@@ -65,7 +65,7 @@ if __name__ == '__main__':
     parser.add_argument('--diffusion-rate', type=float, default=0.2,
                         help='Rate of diffusion in the lattice')
     parser.add_argument('--initialization', type=str, default='random',
-                        choices=['block', 'random'],
+                        choices=['block', 'random', '1line', '2line'],
                         help='Choice of system initialization method')
     args = parser.parse_args()
 

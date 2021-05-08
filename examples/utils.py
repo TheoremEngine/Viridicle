@@ -135,6 +135,36 @@ def get_default_arg_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def get_line_initialization(num_states: int, shape: Sequence[int],
+                            num_lines: int = 1) -> np.ndarray:
+    '''
+    Constructs an initialization state for a 2-dimensional lattice using equi-
+    distant lines. This is intended to induce the marching bands pattern in the
+    May-Leonard system.
+
+    Args:
+        num_states (int): Number of system states. We assume state 0 is empty
+        and the number of species equals (num_states - 1).
+        shape (sequence of ints): Shape of the lattice.
+        num_lines (int): Number of lines per non-zero state.
+
+    Returns:
+        The :class:`numpy.ndarray` containing the initial lattice state.
+    '''
+    if len(shape) != 2:
+        raise ValueError('Line init only supports 2 dimensions.')
+
+    height, width = shape
+    gap = width // ((num_states - 1) * num_lines)
+    sites = np.zeros((height, width), dtype=np.uint8)
+    states = list(range(1, num_states)) * num_lines
+
+    for sp, x in zip(states, range(0, width, gap)):
+        sites[:, x] = sp
+
+    return sites
+
+
 def get_neighborhood(radius: float) -> np.ndarray:
     '''
     Builds a neighborhood array including all entries of within a specified
@@ -280,6 +310,14 @@ def worker(args: Tuple[type, Dict, Dict, Callable, str]):
     if init == 'block':
         init_params['sites'] = get_block_initialization(
             n, init_params['sites'], init_params.get('generator', None)
+        )
+    elif init in {'line', '1line'}:
+        init_params['sites'] = get_line_initialization(
+            n, init_params['sites'], 1
+        )
+    elif init == '2line':
+        init_params['sites'] = get_line_initialization(
+            n, init_params['sites'], 2
         )
     elif init == 'random':
         pass

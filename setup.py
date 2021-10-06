@@ -13,6 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+import os
 from pkg_resources import resource_filename
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
@@ -49,9 +50,24 @@ class DeferredBuildExt(build_ext):
 
 
 if __name__ == '__main__':
+    # Get root path
+    root_path = os.path.dirname(os.path.abspath(__file__))
+
     # Read in requirements.txt
-    with open('requirements.txt', 'r') as reqs_file:
+    req_path = os.path.join(root_path, 'requirements.txt')
+    with open(req_path, 'r') as reqs_file:
         requirements = list(reqs_file.readlines())
+
+    # Get version
+    init_path = os.path.join(root_path, 'viridicle/__init__.py')
+    with open(init_path, 'r') as init_file:
+        for line in init_file:
+            if line.startswith('__version__'):
+                _, version = line.split('=')
+                version = version.strip(" '\n")
+                break
+        else:
+            raise RuntimeError('Could not find version')
 
     cmdclass = {'build_ext': DeferredBuildExt}
 
@@ -75,7 +91,7 @@ if __name__ == '__main__':
 
     setup(
         name='viridicle',
-        version='0.0',
+        version=version,
         packages=['viridicle'],
         ext_modules=[viridicle_ext],
         description='Fast stochastic ecological simulations on graphs in '

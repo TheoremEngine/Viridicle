@@ -53,11 +53,6 @@ if __name__ == '__main__':
     # Get root path
     root_path = os.path.dirname(os.path.abspath(__file__))
 
-    # Read in requirements.txt
-    req_path = os.path.join(root_path, 'requirements.txt')
-    with open(req_path, 'r') as reqs_file:
-        requirements = list(reqs_file.readlines())
-
     # Get version
     init_path = os.path.join(root_path, 'viridicle/__init__.py')
     with open(init_path, 'r') as init_file:
@@ -74,9 +69,12 @@ if __name__ == '__main__':
     viridicle_ext = Extension(
         'viridicle._C',
         sources=[
-            'viridicle/graph_ops.c',
             'viridicle/data_prep.c',
-            'viridicle/viridicle.c'
+            'viridicle/graph_ops.c',
+            'viridicle/viridicle.c',
+        ],
+        include_dirs=[
+            'viridicle/',
         ],
         extra_compile_args=['-O3'],
     )
@@ -96,7 +94,7 @@ if __name__ == '__main__':
         ext_modules=[viridicle_ext],
         description='Fast stochastic ecological simulations on graphs in '
                     'Python and numpy',
-        setup_requires=requirements,
-        install_requires=requirements,
+        setup_requires=['numpy'],
+        install_requires=['networkx', 'numpy'],
         cmdclass=cmdclass,
     )

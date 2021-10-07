@@ -1,7 +1,15 @@
 viridicle: A Python Library for Stochastic Ecological Models on Graphs
 ======================================================================
 
-viridicle is a simple module for running stochastic ecological models on graphs, with a Python API but exploiting C for speed.
+viridicle is a simple module for running stochastic ecological models on graphs, with a Python API but exploiting C for speed. It can be downloaded from:
+
+`https://github.com/TheoremEngine/viridicle <https://github.com/TheoremEngine/viridicle>`_
+
+Or installed by:
+
+.. code-block:: bash
+
+    pip install viridicle
 
 The basic idea of these models is that you have a graph - usually, but not necessarily, a 2-dimensional lattice - with a state associated to each vertex in the graph. Every pair of adjacent vertices evolves stochastically: for every pair of possible states, there exist a list of possible transitions, and the time until that transition occurs is an exponentially distributed random variable with a specified rate. For example, if 0 denotes an empty site and 1 denotes a site occupied by species 1, then species 1 might reproduce with the transition :math:`(1, 0)\to(1, 1)` at rate 0.2. Then, for any pair of adjacent vertices in state 1 and 0 respectively, the time until the state of the vertex that is currently 0 changes to state 1 is exponentially distributed with rate 0.2, unless some other transition occurs that changes the states of the vertices first. For further details on the mathematics, consult the links below or our paper.
 

@@ -64,6 +64,10 @@ if __name__ == '__main__':
         else:
             raise RuntimeError('Could not find version')
 
+    # Get description
+    with open('README.md', 'r') as readme_file:
+        long_description = readme_file.read()
+
     cmdclass = {'build_ext': DeferredBuildExt}
 
     viridicle_ext = Extension(
@@ -97,4 +101,15 @@ if __name__ == '__main__':
         setup_requires=['numpy'],
         install_requires=['networkx', 'numpy'],
         cmdclass=cmdclass,
+        author='Mark Lowell',
+        url='https://github.com/TheoremEngine/viridicle',
+        python_requires='>=3.6',
+        long_description=long_description,
+        long_description_content_type="text/markdown",
+        classifiers=[
+            'Intended Audience :: Science/Research',
+            'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+            'Programming Language :: Python :: 3',
+            'Topic :: Scientific/Engineering :: Mathematics',
+        ],
     )

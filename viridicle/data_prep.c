@@ -771,7 +771,7 @@ int initialize_rules(struct Model *geo, PyArrayObject *np_beta,
         goto error;
     }
     if (diffusion_probability > 0) {
-        geo->diffusion_thresh = malloc(sizeof(prob_type) * MAX_DIFFUSIONS);
+        geo->diffusion_thresh = malloc(sizeof(prob_type) * (MAX_DIFFUSIONS + 1));
         if (geo->diffusion_thresh == NULL) {
             PyErr_SetString(
                 PyExc_RuntimeError,

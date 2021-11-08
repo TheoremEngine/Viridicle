@@ -47,8 +47,8 @@ def in_temporary_directory():
     # it. Unfortunately, there's no easy way I can see to ensure a true return
     # to EXACTLY the original curdir IN ITS ORIGINAL FORM if it's a relative
     # path, but this will ensure we're returned to the same original ABSOLUTE
-    # path, and I struggle to think of circumstances under which that would make
-    # a difference.
+    # path, and I struggle to think of circumstances under which that would
+    # make a difference.
     orig_path = os.path.abspath(os.curdir)
     with tempfile.TemporaryDirectory() as temp_path:
         os.chdir(temp_path)

@@ -108,7 +108,8 @@ if __name__ == '__main__':
         long_description_content_type="text/markdown",
         classifiers=[
             'Intended Audience :: Science/Research',
-            'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+            'License :: OSI Approved :: GNU General Public License v3 or '
+            'later (GPLv3+)',
             'Programming Language :: Python :: 3',
             'Topic :: Scientific/Engineering :: Mathematics',
         ],

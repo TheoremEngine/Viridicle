@@ -14,10 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from contextlib import suppress
-import os
-import subprocess
 import sys
-import tempfile
 import unittest
 import weakref
 

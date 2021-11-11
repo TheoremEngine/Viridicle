@@ -13,6 +13,6 @@ This bibliography is not intended to be comprehensive, only to provide a quick i
 
 * `Roman, Dasgupta, and Pleimling 2013 <https://www.arxiv.org/abs/1303.3139>`_, "Interplay Between Formation and Competition in Generalized May-Leonard Games." *Physical Review E*, Vol. 87 No. 3, March 2013. Introduces the :math:`(n, r)` notation for May-Leonard models and demonstrates the formation of multilevel domains, with superdomains containing subdomains of competing species.
 
-* `Szabo and Sznaider 2004 <https://www.arxiv.org/abs/q-bio/0310017>`_, "Phase Transition and Selection in a Four-Species Cyclic Predator-Prey Model." \emph{Physical Review E}, Vol. 69, 2004. Demonstrates the formation of alliances between different species.
+* `Szabo and Sznaider 2004 <https://www.arxiv.org/abs/q-bio/0310017>`_, "Phase Transition and Selection in a Four-Species Cyclic Predator-Prey Model." *Physical Review E*, Vol. 69, 2004. Demonstrates the formation of alliances between different species.
 
 * `Szolnoki et al 2014 <https://arxiv.org/abs/1408.6828>`_, "Cyclic Dominance in Evolutionary Games: A Review", *Journal of the Royal Society Interface*, Vol. 11 No. 100. Recent survey paper on continuous-time graph models.

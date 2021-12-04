@@ -24,12 +24,13 @@ performance. Benchmark times are from running on an AWS EC2 c6g.4xlarge.
 # size=c6g.4xlarge
 # maximum_runtime=24:00:00
 
-from itertools import chain
-import os
-import subprocess
+from copy import deepcopy
+import multiprocessing as mp
 import time
+from typing import Dict
 
 from tabulate import tabulate
+import viridicle
 
 TEST_CASES = [
     {
@@ -58,50 +59,42 @@ TEST_CASES = [
         # 739.8 sec
     }
 ]
-# Common argments used in all test cases.
-COMMON_ARGUMENTS = {
-    'initialization': 'random',
-    'elapsed-time': 1000,
-}
+# Units of time for each experiment
+ELAPSED_TIME = 1000.0
 # Number of experiments to run per combination of parameters
 NUM_EXPERIMENTS = 256
 # Number of workers in multi-threaded experiments
 NUM_WORKERS = 16
-# Install location of Viridicle on AWS image.
-OPT_PATH = '/opt/viridicle'
+
+
+def worker(params: Dict):
+    shape = (params['width'], params['width'])
+    beta = viridicle.may_leonard_rules(3, 1, params['diffusion-rate'])
+    geo = viridicle.LatticeGeography(shape, beta, params['seed'])
+    geo.run(elapsed_time=ELAPSED_TIME, return_counts=False)
+
+
+def add_seed(params: Dict, seed: int) -> Dict:
+    params = deepcopy(params)
+    params['seed'] = seed
+    return params
 
 
 if __name__ == '__main__':
     origin_time = time.perf_counter()
-
-    # Locate run_may_and_leonard script.
-    if os.path.exists(OPT_PATH):
-        script_root = os.path.join(OPT_PATH, 'examples')
-    else:
-        script_root = os.path.join(os.path.dirname(__file__), '../examples')
-    script_path = os.path.join(script_root, 'run_may_and_leonard.py')
-
-    # Construct command
-    command = [
-        'python3', script_path, '--benchmark',
-        '--num-workers', str(NUM_WORKERS),
-        '--num-experiments', str(NUM_EXPERIMENTS)
-    ]
-    command += list(chain(*([f'--{key}', str(value)] for key, value in
-                            COMMON_ARGUMENTS.items())))
-
     exps_per_worker = NUM_EXPERIMENTS / NUM_WORKERS
 
     for test_case in TEST_CASES:
         start_time = time.perf_counter()
-        subprocess.run(
-            command + list(chain(*([f'--{key}', str(value)]
-                                   for key, value in test_case.items()
-                                   if ' ' not in key))),
-            check=True,
-            cwd=script_root,
-            stdout=subprocess.DEVNULL
-        )
+
+        if NUM_WORKERS > 1:
+            exps = [add_seed(test_case, i) for i in range(NUM_EXPERIMENTS)]
+            with mp.Pool(NUM_WORKERS) as pool:
+                pool.map(worker, exps)
+        else:
+            for i in range(NUM_EXPERIMENTS):
+                worker(test_case, i)
+
         runtime = (time.perf_counter() - start_time) / exps_per_worker
         test_case['Runtime'] = f'{runtime} sec'
 

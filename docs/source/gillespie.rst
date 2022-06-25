@@ -140,4 +140,4 @@ There's one further trick we can use, thanks to `Reichenbach, Mobilia and Frey 2
 However, there is one slight caveat: we use a set of pre-calculated thresholds to efficiently perform the geometric sampling. This is more efficient, but means there is a maximum number of possible diffusion events between non-diffusion events. The default maximum is very high (1024), and it should be very rare that the number of diffusions would exceed this, but it can potentially happen. If you're concerned about this, you can do one of two things:
 
  - Pass the argument `allow_diffusion_trick=False` when calling the `Geography.run` method. This turns off the diffusion trick, at some cost in runtime.
- _ Change the value `MAX_DIFFUSIONS` in the file graph_ops.h to a higher value, then reinstall the package.
+ - Change the value `MAX_DIFFUSIONS` in the file graph_ops.h to a higher value, then reinstall the package.

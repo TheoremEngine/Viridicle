@@ -36,17 +36,17 @@ class DeferredBuildExt(build_ext):
         build_ext.build_extensions(self)
 
     def _update_extensions(self):
-        from numpy.distutils.misc_util import get_info
+        import numpy as np
 
-        np_paths = get_info('npymath')
         random_lib_path = resource_filename('numpy', 'random/lib')
 
         for extension in self.extensions:
-            extension.include_dirs += np_paths['include_dirs']
-            extension.library_dirs.append(random_lib_path)
-            extension.library_dirs += np_paths['library_dirs']
-            extension.libraries.append('npyrandom')
-            extension.libraries += np_paths['libraries']
+            extension.include_dirs.append(np.get_include())
+            extension.library_dirs += [
+                random_lib_path,
+                os.path.join(np.get_include(), '../lib')
+            ]
+            extension.libraries += ['npyrandom', 'npymath']
 
 
 if __name__ == '__main__':

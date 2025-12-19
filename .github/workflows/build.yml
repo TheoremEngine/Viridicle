@@ -18,7 +18,8 @@ jobs:
         env:
           # Skip Python versions:
           # PyPy: Different C headers
-          CIBW_SKIP: "pp* cp36-* cp37-* cp38-* *-manylinux_i686 *-win32"
+          # muslinux: Different package manager and different C stdlib
+          CIBW_SKIP: "pp* cp36-* cp37-* cp38-* *-manylinux_i686 *-musllinux_* *-win32"
           
           # Linux dependencies: 
           CIBW_BEFORE_ALL_LINUX: "yum install -y gcc libjpeg-devel zlib-devel"

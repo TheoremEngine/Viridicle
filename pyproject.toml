@@ -1,0 +1,37 @@
+[build-system]
+requires = ['setuptools', 'wheel', 'numpy']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'viridicle'
+description = 'Fast stochastic ecological simulations on graphs in Python and numpy'
+readme = 'README.md'
+requires-python = '>=3.6'
+license = {text = 'GNU General Public License v3 or later (GPLv3+)'}
+authors = [
+    {name = 'Mark Lowell'}
+]
+classifiers = [
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+    'Programming Language :: Python :: 3',
+    'Topic :: Scientific/Engineering :: Mathematics',
+]
+dependencies = [
+    'networkx',
+    'numpy',
+]
+dynamic = ['version']
+
+[project.urls]
+Homepage = 'https://github.com/TheoremEngine/viridicle'
+
+[tool.setuptools]
+packages = ['viridicle']
+
+[tool.setuptools.dynamic]
+version = {attr = 'viridicle.__version__'}
+
+[project.optional-dependencies]
+dev = ['sphinx', 'tabulate']
+examples = ['matplotlib', 'notebook']

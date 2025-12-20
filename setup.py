@@ -50,24 +50,6 @@ class DeferredBuildExt(build_ext):
 
 
 if __name__ == '__main__':
-    # Get root path
-    root_path = os.path.dirname(os.path.abspath(__file__))
-
-    # Get version
-    init_path = os.path.join(root_path, 'viridicle/__init__.py')
-    with open(init_path, 'r') as init_file:
-        for line in init_file:
-            if line.startswith('__version__'):
-                _, version = line.split('=')
-                version = version.strip(" '\n")
-                break
-        else:
-            raise RuntimeError('Could not find version')
-
-    # Get description
-    with open('README.md', 'r') as readme_file:
-        long_description = readme_file.read()
-
     cmdclass = {'build_ext': DeferredBuildExt}
 
     viridicle_ext = Extension(
@@ -92,25 +74,6 @@ if __name__ == '__main__':
         viridicle_ext.extra_compile_args.extend(['-g', '-DWITHVALGRIND'])
 
     setup(
-        name='viridicle',
-        version=version,
-        packages=['viridicle'],
         ext_modules=[viridicle_ext],
-        description='Fast stochastic ecological simulations on graphs in '
-                    'Python and numpy',
-        setup_requires=['numpy'],
-        install_requires=['networkx', 'numpy'],
         cmdclass=cmdclass,
-        author='Mark Lowell',
-        url='https://github.com/TheoremEngine/viridicle',
-        python_requires='>=3.6',
-        long_description=long_description,
-        long_description_content_type="text/markdown",
-        classifiers=[
-            'Intended Audience :: Science/Research',
-            'License :: OSI Approved :: GNU General Public License v3 or '
-            'later (GPLv3+)',
-            'Programming Language :: Python :: 3',
-            'Topic :: Scientific/Engineering :: Mathematics',
-        ],
     )

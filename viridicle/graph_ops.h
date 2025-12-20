@@ -113,6 +113,21 @@ struct Model {
                       state_type *site_records);
 };
 
+// The ActiveList struct keeps track of which edges have the potential to see a
+// state change in the next update, so that we can avoid wasting cycles on
+// inactive edges. This is used in systems where homogenous edges - edges where
+// each site have the same state - have no potential reactions. The struct is
+// pre-allocated a large enough block of memory that it can hold all potential
+// edges, and uses a swap-and-pop mechanism to keep it updated in O(1) time.
+//
+// active_edges: Pointer to the array of pointers to the edges that are active.
+// num_active: Number of active edges.
+
+struct ActiveList {
+    Edge **active_edges;
+    int num_active;
+}
+
 int run_system_c(struct Model *geo, bitgen_t *rng, long int num_reports,
                  long int report_every, npy_uint64 *count_records,
                  state_type *site_records);
@@ -124,6 +139,10 @@ int run_system_with_diffusion(struct Model *geo, bitgen_t *rng,
                               long int num_reports, long int report_every,
                               npy_uint64 *count_records,
                               state_type *site_records);
+int run_system_with_active_list(struct Model *geo, bitgen_t *rng,
+                                long int num_reports, long int report_every,
+                                npy_uint64 *count_records,
+                                state_type *site_records);
 
 int check_validity(struct Model *geo, bool is_fully_connected);
 
